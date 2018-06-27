@@ -3,6 +3,7 @@ package com.ipiecoles.java.mdd050.controller;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ import com.ipiecoles.java.mdd050.service.EmployeService;
 	public static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json;charset=UTF-8";
 		
 	  @Autowired
-	  private EmployeService employeService;
+	  protected EmployeService employeService;
 
 	  @RequestMapping(value = "/count", method = RequestMethod.GET)
 	  public Long CountEmployes() {
@@ -40,7 +41,10 @@ import com.ipiecoles.java.mdd050.service.EmployeService;
 	     return employeService.findMyMatricule(matricule);
 	  }
 	  
-	  
+	  @RequestMapping(value = "", produces = APPLICATION_JSON_CHARSET_UTF_8, method = RequestMethod.GET)
+	      public Page<Employe> findAll(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sortDirection") String sortDirection, @RequestParam("sortProperty") String sortProperty){
+	          return employeService.findAllEmployes(page, size, sortProperty, sortDirection);
+	  }
 	  
 	  
 	  
